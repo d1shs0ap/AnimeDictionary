@@ -1,6 +1,41 @@
-<div>
-    <h1><%= q %></h1>
-</div>
-<div>
-    <%= meaning %>
-</div>
+<div class="px-5 container-fluid bg-info" >
+    <h4><small><%= q %> or <%= hiragana %> </small></h4>
+</div >
+
+
+<% if (meaning === false) { %>
+    <div class="alert alert-primary px-5 " role="alert">
+        Search not found. Please try again. 
+        </div>
+ <form action="/" method="GET">
+    <button type="submit" class="btn btn-primary px-5">Back to Landing</button>
+  </form>
+<% } else {%>
+<div class = "container-fluid">
+    <div class="row px-5 ">
+        <h5>Search results: </h5>
+    </div>
+
+    <% for(var i=0; i < meaning.length; i++) { %>
+        <% if(meaning[i].japanese[0]) { %>
+        <div class="row borders px-3">
+        <div class = "col-4 text.center"> 
+            <% if (meaning[i].japanese[0].word) { %>      
+            <h4><ruby> <%= meaning[i].japanese[0].word %><rt> <%= meaning[i].japanese[0].reading %> </rt></ruby></h4>
+            <% } else { %>
+            <h4><%= meaning[i].japanese[0].reading %></h4> <% } %>
+        </div>
+
+        <div class="col">
+        <% for(var j=0; j < meaning[i].senses.length; j++)  { %> 
+            <% if (meaning[i].senses[j].english_definitions) { %>
+                <div class="row">
+              <%= j+1 + ". " + meaning[i].senses[j].english_definitions.join("; ") %>
+                </div> 
+           <% }} %>
+            </div> <% } %> 
+        </div>
+    <% } %>
+             </div>
+    <% } %>
+      </div>

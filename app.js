@@ -14,10 +14,15 @@ mongoose.connect(db, { useNewUrlParser: true})
 //Exception handling is the process of responding to the occurrence, during computation, of exceptions – anomalous or 
 //exceptional conditions requiring special processing – often disrupting the normal flow of program execution.
 
+//Bodyparser
+app.use(express.urlencoded({ extended: false })); //Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
+
+
 app.use(expressLayouts)
 app.set('view engine', 'ejs')
 
 app.use('/', require('./routes/index'))
+//app.use('/search', require('.routes/search'))
 
 
 //PORT setup

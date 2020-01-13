@@ -24,6 +24,7 @@ app.set('view engine', 'ejs');
 app.use('/', require('./routes/index'));
 //app.use('/search', require('.routes/search'))
 
+app.use(express.static(__dirname + '/public'))
 
 //PORT setup
 const PORT = process.env.PORT || 3000;

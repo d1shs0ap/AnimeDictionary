@@ -5,11 +5,11 @@ const mongoose = require('mongoose');
 const app = express();
 
 //DB setup
-// const db = require('./config/keys').MongoURI; //Here is the require call that module.exports is looking for in keys.js
+const db = require('./config/keys').MongoURI; //Here is the require call that module.exports is looking for in keys.js
 
-//mongoose.connect(db, { useNewUrlParser: true})
-//.then(() => console.log('MongoDB Connected...')) //.then is a method that exists on Promises and is a mechanism for code synchronization. 
-//.catch(err => console.log(err));
+mongoose.connect(db, { useNewUrlParser: true})
+.then(() => console.log('MongoDB Connected...')) //.then is a method that exists on Promises and is a mechanism for code synchronization. 
+.catch(err => console.log(err));
 //Exception handling is the process of responding to the occurrence, during computation, of exceptions – anomalous or 
 //exceptional conditions requiring special processing – often disrupting the normal flow of program execution.
 

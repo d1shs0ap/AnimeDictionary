@@ -10,6 +10,8 @@ const jisho = new JishoApi();
 const kuroshiro = new KuroshiroAPI();
 const wanakana = require('wanakana');
 
+const Quotes  = require('../models/Quotes')
+
 kuroshiro.init(new KuromojiAnalyzer()).then( () => {
 
 router.get('/', function (req, res) {
@@ -30,24 +32,18 @@ router.get('/search', async function(req, res) {
                 if (japData.data[0]) {
                     if (wanakana.isKana(req.query.word)){
                         style.hiragana = wanakana.toRomaji(req.query.word);
-                style.meaning = japData.data//[0].senses[0].english_definitions;
-                res.render('search', style);
+                        style.meaning = japData.data//[0].senses[0].english_definitions;
+                        res.render('search', style);
                     } else {
-                style.hiragana = wanakana.toKana(req.query.word);
-                style.meaning = japData.data//[0].senses[0].english_definitions;
-                res.render('search', style);
+                        style.hiragana = wanakana.toKana(req.query.word);
+                        style.meaning = japData.data//[0].senses[0].english_definitions;
+                        res.render('search', style);
                     }
                 } else {
                     style.hiragana = wanakana.toKana(req.query.word);
                     style.meaning = false;
                     res.render('search', style);
                 }
-            
-            
-        
-    
-    
-    
        /* res.render('search', 
         {title: req.query.word + ' - The Anime Dictionary', 
         q: req.query.word, 
@@ -55,5 +51,17 @@ router.get('/search', async function(req, res) {
         }) */
     }
 })})
+
+router.post('/search', (req, res) => {
+    const {eng, jap} = req.body //japanese and english sentences
+    const newQuote  = new Quotes({
+        eng, jap
+    })
+    newQuote.save()
+        .then(user => {
+            res.redirect('/');
+        })
+        .catch(err => console.log(err));
+})
 
 module.exports = router

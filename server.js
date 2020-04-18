@@ -19,15 +19,13 @@ mongoose.connect(db, { useNewUrlParser: true})
 //Bodyparser
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
-
+app.use(express.static(__dirname + '/public'));
 
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
 
 app.use('/', require('./routes/index'));
 //app.use('/search', require('.routes/search'))
-
-app.use(express.static(__dirname + '/public'));
 
 //PORT setup
 const PORT = process.env.PORT || 3000;

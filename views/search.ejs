@@ -1,64 +1,54 @@
-<div class="px-5 container-fluid bg-info" >
-    <h4><small><%= q %> or <%= hiragana %> </small></h4>
-</div >
+<!-- <div class="px-5 container-fluid bg-info search-header" >
+    <h1 class="text-left mb-3"> The Anime Dictionary </h1>
+</div > -->
+
+<%- include('partials/navbar'); %>
 
 
 <% if (meaning === false) { %>
     <div class="alert alert-primary px-5 " role="alert">
         Search not found. Please try again. 
-        </div>
+    </div>
  <form action="/" method="GET">
     <button type="submit" class="btn btn-primary px-5">Back to Landing</button>
   </form>
-<% } else {%>
+
+<% } else { %>
 <div class = "container-fluid">
     <div class="row px-5 ">
-        <h5>Search results: </h5>
+        <span class="searchHead"> Search results for "<%= q %>" or "<%= hiragana %>" </span>
     </div>
-
-    <% for(var i=0; i < meaning.length; i++) { %>
-        <% if(meaning[i].japanese[0]) { %>
-        <div class="row border111 px-3">
-        <div class = "col-4 text.center"> 
-            <% if (meaning[i].japanese[0].word) { %>      
-            <h4><ruby> <%= meaning[i].japanese[0].word %><rt> <%= meaning[i].japanese[0].reading %> </rt></ruby></h4>
-            <% } else { %>
-            <h4><%= meaning[i].japanese[0].reading %></h4> <% } %>
-        </div>
-
-        <div class="col">
-        <% for(var j=0; j < meaning[i].senses.length; j++)  { %> 
-            <% if (meaning[i].senses[j].english_definitions) { %>
-                <div class="row">
-              <%= j+1 + ". " + meaning[i].senses[j].english_definitions.join("; ") %>
-                </div> 
-           <% }} %>
-            </div> <% } %> 
-        </div>
+    
+    <ul class= "list-group">
+    <% for(var i = 0; i < meaning.length; i++) { %>
+        <%- include('partials/searchres', {i: i, meaning: meaning}); %>
     <% } %>
-             </div>
-    <form action="/search" method="POST">
-        <div class="form-group">
-            <label for="jap">Japanese</label>
-            <input 
-            type="text" 
-            id="jap" 
-            name="jap" 
-            class="form-control" 
-            placeholder="Enter Japanese Quotation"
-            />
-        </div>
-        <div class="form-group">
-            <label for="eng">English</label>
-            <input 
-            type="text" 
-            id="eng" 
-            name="eng" 
-            class="form-control" 
-            placeholder="Enter Equivalent English Quotation"
-            />
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Add</button>
-    </form>
-    <% } %>
-      </div>
+    </ul>
+<% } %>
+</div>
+    
+<!-- <form action="/search" method="POST">
+    <div class="form-group">
+        <label for="jap">Japanese</label>
+        <input 
+        type="text" 
+        id="jap" 
+        name="jap" 
+        class="form-control" 
+        placeholder="Enter Japanese Quotation"
+        />
+    </div>
+    <div class="form-group">
+        <label for="eng">English</label>
+        <input 
+        type="text" 
+        id="eng" 
+        name="eng" 
+        class="form-control" 
+        placeholder="Enter Equivalent English Quotation"
+        />
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Add</button>
+</form>
+    </div> -->
+

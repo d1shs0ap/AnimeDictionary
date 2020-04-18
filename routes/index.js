@@ -1,5 +1,6 @@
 //Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI (or path) and a specific HTTP request method (GET, POST, and so on).
 //Each route can have one or more handler functions, which are executed when the route is matched.
+
 const express = require("express")
 const JishoApi = require('unofficial-jisho-api')
 const KuroshiroAPI = require('kuroshiro')
@@ -12,56 +13,76 @@ const wanakana = require('wanakana');
 
 const Quotes  = require('../models/Quotes')
 
-kuroshiro.init(new KuromojiAnalyzer()).then( () => {
+kuroshiro.init(new KuromojiAnalyzer())
 
-router.get('/', function (req, res) {
-    res.render('home', { title: 'The Anime Dictionary' })
+.then( () => {
+
+router.get('/', function (req, res) { // This is the homepage
+    res.render('home', { title: 'The Anime Dictionary' });
 })
 
-router.post('/', function (req, res){
-    res.redirect('/search?word=' + req.body.word)
-})
+/*router.post('/', function (req, res){ // This takes care when someone searches, as a POST request is made
+    res.redirect('/search?word=' + req.body.word); // Takes the res to the search function
+}) */
 
-router.get('/search', async function(req, res) {
-    if(req.query.word){
-        var style = {title: req.query.word + ' - The Anime Dictionary', 
-                    q: req.query.word };
-        // 
-       
-    var japData = await jisho.searchForPhrase(req.query.word);
-                if (japData.data[0]) {
-                    if (wanakana.isKana(req.query.word)){
-                        style.hiragana = wanakana.toRomaji(req.query.word);
-                        style.meaning = japData.data//[0].senses[0].english_definitions;
-                        res.render('search', style);
-                    } else {
-                        style.hiragana = wanakana.toKana(req.query.word);
-                        style.meaning = japData.data//[0].senses[0].english_definitions;
-                        res.render('search', style);
-                    }
-                } else {
-                    style.hiragana = wanakana.toKana(req.query.word);
-                    style.meaning = false;
-                    res.render('search', style);
-                }
-       /* res.render('search', 
+router.get('/search', async function(req, res) { // Now, this goes to search
+
+    if(req.query.newSearch){
+        var data = {title: req.query.newSearch + ' - The Anime Dictionary', 
+                    q: req.query.newSearch };
+
+               /* res.render('search', 
         {title: req.query.word + ' - The Anime Dictionary', 
         q: req.query.word, 
         meaning: means
         }) */
+       
+    var japData = await jisho.searchForPhrase(req.query.newSearch); // a promise
+    
+    if (japData.meta.status === 200) { // Means data is extracted successfully
+        if (japData.data[0]) { // Means data exists
+            if (wanakana.isKana(req.query.newSearch)){
+                data.hiragana = wanakana.toRomaji(req.query.newSearch);
+                data.meaning = japData.data//[0].senses[0].english_definitions;
+                res.render('search', data);
+            } else {
+                    data.hiragana = wanakana.toKana(req.query.newSearch);
+                    data.meaning = japData.data//[0].senses[0].english_definitions;
+                    res.render('search', data);
+                }
+        } else {
+                data.hiragana = wanakana.toKana(req.query.newSearch);
+                data.meaning = false;
+                res.render('search', data);
+            }
+        }
     }
 })})
 
+.catch(err => console.log(err))
+
 router.post('/search', (req, res) => {
-    const {eng, jap} = req.body //japanese and english sentences
+
+    const {eng, jap} = req.body; //japanese and english sentences
+    let errors = [];
+
+    if (!eng || !jap ) {
+        errors.push({msg: 'Please fill in both fields'});
+    }
+
+    if (errors.length > 0) {
+        location.reload();
+    }
+
     const newQuote  = new Quotes({
         eng, jap
     })
     newQuote.save()
         .then(user => {
-            res.redirect('/');
+            req.flash('Thank you for your submission!')
+            location.reload();
         })
         .catch(err => console.log(err));
-})
+}); 
 
-module.exports = router
+module.exports = router;

@@ -1,3 +1,6 @@
+// This server handles the connection of the server at the website
+
+
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
@@ -24,7 +27,7 @@ app.set('view engine', 'ejs');
 app.use('/', require('./routes/index'));
 //app.use('/search', require('.routes/search'))
 
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/public'));
 
 //PORT setup
 const PORT = process.env.PORT || 3000;

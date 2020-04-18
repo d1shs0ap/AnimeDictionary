@@ -1,3 +1,17 @@
- .border111 {
-    border-bottom:1px solid #999;
+.searchHead {
+    font-size: 200%;
+}
+
+.is-common {
+    background-color: orange;
+    color: white;
+}
+
+.jlpt {
+    background-color: red;
+    color: white;
+}
+
+smol {
+    font-size:0.75 rem; /* this means the font size scales with the screen */
 }

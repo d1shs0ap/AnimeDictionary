@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 
-const QuotesSchema = new mongoose.Schema({
-    eng: {
+const QuotesSchema = new mongoose.Schema({ // This is the object schema for inserted quotes
+    sentenceEng: {
         type: String,
         required: true
     },
-    jap: {
+    sentenceJap: {
         type: String,
         required: true
     }

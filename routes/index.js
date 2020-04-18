@@ -61,7 +61,11 @@ router.get('/search', async function(req, res) { // Now, this goes to search
 
 .catch(err => console.log(err))
 
-router.post('/search', (req, res) => {
+router.get('/upload', (req,res) => {
+    res.render('upload', { title: 'The Anime Dictionary' });
+});
+
+router.post('/upload', (req, res) => {
 
     const {eng, jap} = req.body; //japanese and english sentences
     let errors = [];
@@ -71,7 +75,11 @@ router.post('/search', (req, res) => {
     }
 
     if (errors.length > 0) {
-        location.reload();
+        res.render('upload',{
+            errors,
+            eng,
+            jap
+        });
     }
 
     const newQuote  = new Quotes({
@@ -80,7 +88,7 @@ router.post('/search', (req, res) => {
     newQuote.save()
         .then(user => {
             req.flash('Thank you for your submission!')
-            location.reload();
+            res.render('upload', { title: 'The Anime Dictionary' });
         })
         .catch(err => console.log(err));
 }); 

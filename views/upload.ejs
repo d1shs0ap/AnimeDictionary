@@ -1,0 +1,27 @@
+<%- include('partials/navbar'); %>
+
+<span class="searchHead"> Thank you for contributing! Please upload in the form below. </span>
+
+<form action="/upload" method="POST">
+    <div class="form-group">
+        <label for="jap">Japanese</label>
+        <input 
+        type="text" 
+        id="jap" 
+        name="jap" 
+        class="form-control" 
+        placeholder="Enter Japanese Quotation"
+        />
+    </div>
+    <div class="form-group">
+        <label for="eng">English</label>
+        <input 
+        type="text" 
+        id="eng" 
+        name="eng" 
+        class="form-control" 
+        placeholder="Enter Equivalent English Quotation"
+        />
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Add</button>
+</form>

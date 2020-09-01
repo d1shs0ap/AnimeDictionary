@@ -1,0 +1,29 @@
+<li class="list-group-item">
+    <div class = "row">
+        <!--- This is the column for the words -->
+        <div class = "col">
+            <div class = "row">
+                <h3> <%= meaning[i].japanese[0].word %> <% if (meaning[i].japanese[0].reading) { %> [<%= meaning[i].japanese[0].reading %>] <% } %>
+                </h3>            
+            </div>
+            <%- include('is-common', {i : i, meaning: meaning}); %>
+    
+            <%- include('jlpt', {i : i, meaning: meaning}); %>     
+        </div>
+    
+        <!-- This is the column for the english meaning -->
+        <div class = "col">
+            <% for(var j=0; j < meaning[i].senses.length; j++)  { %> 
+                <% if (meaning[i].senses[j].parts_of_speech) { %>
+                    <div class="row">
+                        <%= meaning[i].senses[j].parts_of_speech %>
+                    </div>
+                <% } %>
+                <% if (meaning[i].senses[j].english_definitions) { %>
+                    <div class="row">
+                    <%= j+1 + ". " + meaning[i].senses[j].english_definitions.join("; ") %>
+                    </div> 
+                <% }} %>
+        </div> 
+    </div>
+</li>

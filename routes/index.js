@@ -32,7 +32,7 @@ router.get('/search', async function(req, res) { // Now, this goes to search
                     q: req.query.newSearch };
 
                /* res.render('search', 
-        {title: req.query.word + ' - The Anime Dictionary', 
+        {title: req.query.word + ' - Japanese Dictionary', 
         q: req.query.word, 
         meaning: means
         }) */

@@ -18,7 +18,7 @@ kuroshiro.init(new KuromojiAnalyzer())
 .then( () => {
 
 router.get('/', function (req, res) { // This is the homepage
-    res.render('home', { title: 'The Anime Dictionary' });
+    res.render('home', { title: 'Japanese Dictionary' });
 })
 
 /*router.post('/', function (req, res){ // This takes care when someone searches, as a POST request is made
@@ -28,7 +28,7 @@ router.get('/', function (req, res) { // This is the homepage
 router.get('/search', async function(req, res) { // Now, this goes to search
 
     if(req.query.newSearch){
-        var data = {title: req.query.newSearch + ' - The Anime Dictionary', 
+        var data = {title: req.query.newSearch + ' - Japanese Dictionary', 
                     q: req.query.newSearch };
 
                /* res.render('search', 
@@ -62,7 +62,7 @@ router.get('/search', async function(req, res) { // Now, this goes to search
 .catch(err => console.log(err))
 
 router.get('/upload', (req,res) => {
-    res.render('upload', { title: 'The Anime Dictionary' });
+    res.render('upload', { title: 'Japanese Dictionary' });
 });
 
 router.post('/upload', (req, res) => {
@@ -88,7 +88,7 @@ router.post('/upload', (req, res) => {
     newQuote.save()
         .then(user => {
             req.flash('Thank you for your submission!')
-            res.render('upload', { title: 'The Anime Dictionary' });
+            res.render('upload', { title: 'Japanese Dictionary' });
         })
         .catch(err => console.log(err));
 }); 
